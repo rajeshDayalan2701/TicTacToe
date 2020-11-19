@@ -1,0 +1,174 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+:root {
+	--board-cell-size: 5rem;
+}
+
+h2 {
+	font-size: 5rem;
+}
+
+.board {
+	display: grid;
+	grid-template-columns: repeat(3, auto);
+	align-items: center;
+	justify-content: center;
+	align-content: flex-start;
+}
+
+.board .cell {
+	width: var(--board-cell-size);
+	height: var(--board-cell-size);
+	border: 1px solid #000;
+	cursor: pointer;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* To avoid cursor actions for already selected cells */
+.board .cell.x,
+.board .cell.circle {
+	cursor: not-allowed;
+}
+
+/* Styles for X */
+.board .cell.x::before,
+.board .cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after {
+	content: '';
+	position: absolute;
+	width: calc(var(--board-cell-size) * 0.15);
+	height: calc(var(--board-cell-size) * 0.9);
+	background-color: black;
+}
+
+.board .cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover::before {
+	transform: rotate(45deg);
+}
+
+.board .cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover::after {
+	transform: rotate(-45deg);
+}
+
+
+/* Styles for Circle */
+.board .cell.circle::before,
+.board .cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after  {
+	content: '';
+	position: absolute;
+	border-radius: 50%;
+}
+
+.board .cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+	width: calc(var(--board-cell-size) * 0.9);
+	height: calc(var(--board-cell-size) * 0.9);
+	background-color: black;
+}
+
+/* During Hover */
+.board.x .cell:not(.x):not(.circle):hover::before,
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::before {
+	background-color: #ccc;
+}
+
+.board .cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover::after {
+	width: calc(var(--board-cell-size) * 0.65);
+	height: calc(var(--board-cell-size) * 0.65);
+	background-color: white;
+}
+
+/* To remove the borders on the side from the board */
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+	border-top: 0;
+}
+
+.cell:last-child,
+.cell:nth-child(7),
+.cell:nth-child(8) {
+	border-bottom: 0;
+}
+
+.cell:nth-child(3n + 1) {
+	border-left: 0;
+}
+
+.cell:nth-child(3n + 3) {
+	border-right: 0;
+}
+
+/* Match over element */
+#match-over-element {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.9);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+#match-over-element.show {
+	display: flex;
+}
+
+#match-over-element #match-over-text {
+	font-size: 5rem;
+	color: #fff;
+	margin-bottom: 1rem;
+}
+
+#match-over-element button {
+	padding: 1rem 2rem;
+	border-radius: 10px;
+	outline: none;
+	border: 1px solid #000;
+	font-size: 1rem;
+	text-transform: uppercase;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#match-over-element button:hover {
+	background-color: black;
+	color: #fff;
+	border: 1px solid #fff;
+}
+
+@media (max-width: 500px) {
+	:root {
+		--board-cell-size: 3rem;
+	}
+	
+	h2 {
+		font-size: 3rem;
+	}
+
+	#match-over-element #match-over-text {
+		font-size: 3rem;
+	}
+}
